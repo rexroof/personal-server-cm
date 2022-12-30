@@ -1,50 +1,50 @@
-
+---
 - name: Set the hostname
-  hostname:
-    name: "{{ hostname|default(inventory_hostname)|default('unset') }}"
+  ansible.builtin.hostname:
+    name: "{{ hostname | default(inventory_hostname) | default('unset') }}"
   tags: set_hostname
 
-- name: remove sendmail
-  yum:
+- name: Remove sendmail
+  ansible.builtin.yum:
     name: sendmail
     state: absent
 
-- name: add epel to system
-  yum:
+- name: Add epel to system
+  ansible.builtin.yum:
     name: epel-release
     state: present
   when: not  (ansible_facts['distribution'] == "Fedora" and ansible_facts['distribution_major_version'] >= "30")
 
-- name: install packages
-  yum:
+- name: Install packages
+  ansible.builtin.yum:
     state: present
     name:
-    - sudo
-    - lsof
-    - rsyslog
-    - rsync
-    - perl-App-cpanminus
-    - tmux
-    - htop
-    - cronie
+      - sudo
+      - lsof
+      - rsyslog
+      - rsync
+      - perl-App-cpanminus
+      - tmux
+      - htop
+      - cronie
   notify: start-enable-rsyslog
 
-- name: add compression to logrotate
-  lineinfile:
+- name: Add compression to logrotate
+  ansible.builtin.lineinfile:
     path: /etc/logrotate.conf
     regexp: '^compress'
     line: compress
   tags: logrotate
 
-- name: enable logrotate
-  systemd:
+- name: Enable logrotate
+  ansible.builtin.systemd:
     name: logrotate.timer
     state: started
-    enabled: yes
+    enabled: true
   tags: logrotate
 
-- name: start enable cronie
-  service:
+- name: Start enable cronie
+  ansible.builtin.service:
     name: crond
     state: started
-    enabled: yes
+    enabled: true
