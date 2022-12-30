@@ -1,0 +1,17 @@
+all:
+  hosts:
+    hickory.rexroof.com:
+      site: luxembourg
+      ansible_host: 104.244.79.72
+      ansible_python_interpreter: /usr/bin/python3
+      acme_proxy_host: 198.98.49.26
+    pecan.rexroof.com:
+      site: nyc
+      ansible_host: 198.98.49.26
+      ansible_python_interpreter: /usr/bin/python3
+      acme_proxy_host: false
+    mesquite.rexroof.com:
+      site: las_vegas
+      ansible_host: 199.19.224.244
+      ansible_python_interpreter: /usr/bin/python3
+      acme_proxy_host: 198.98.49.26
