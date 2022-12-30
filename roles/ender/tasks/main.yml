@@ -1,0 +1,27 @@
+# create ender user for ansible tasks
+
+# create user
+  - name: create user ender
+    user:
+      append: yes
+      name: ender
+      comment: "enders game is ansible"
+      createhome: yes
+      uid: 901
+      move_home: yes
+      home: /home/ender
+      groups: wheel
+
+# add ssh key
+  - name: ssh key
+    authorized_key: user=ender key="{{ lookup('file', 'ender_rsa.pub') }}"
+
+# allow sudo without password
+  - name: create sudoers.d file
+    # special quoting for colon in sudo line
+    lineinfile: "dest=/etc/sudoers.d/ender create=yes mode=0440 line='ender ALL=(ALL) NOPASSWD: ALL'"
+
+  # verify this exists in sudoers
+  - name: includedir within sudoers file
+    lineinfile: dest=/etc/sudoers line="#includedir /etc/sudoers.d"
+
