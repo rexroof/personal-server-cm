@@ -1,42 +1,57 @@
-- name: install postfix
-  yum: name=postfix state=present
+- name: Install postfix
+  ansible.builtin.yum:
+    name: postfix
+    state: present
 
-- name: template postfix config
-  template:
-    src: "{{item}}"
+- name: Template postfix config
+  ansible.builtin.template:
+    src: "{{ item }}"
     dest: "/etc/postfix/"
+    mode: '0644'
   with_items:
     - "master.cf"
     - "main.cf"
-  notify: restart postfix
+  notify: Restart postfix
   tags:
     - mailupdate
 
-- name: copy postfix files over
-  copy: src=etc/ dest=/etc/
-  notify: restart postfix
+- name: Copy postfix files over
+  ansible.builtin.copy:
+    src: etc/
+    dest: /etc/
+    mode: '0644'
+  notify: Restart postfix
   tags:
     - mailupdate
 
-- name: rebuild postfix alias maps
-  shell: postmap /etc/postfix/alias_map-{{ item }}
-  with_items: "{{hosted_domains}}"
+- name: Rebuild postfix alias maps
+  ansible.builtin.command: postmap /etc/postfix/alias_map-{{ item }}
+  with_items: "{{ hosted_domains }}"
   tags:
     - mailupdate
+  # to make ansible lint happy, will always report "changed"
+  register: postmap
+  changed_when: postmap.rc == 0
 
-- name: rebuild postfix mailbox maps
-  shell: postmap /etc/postfix/mailbox_map-{{ item }}
-  with_items: "{{hosted_domains}}"
+- name: Rebuild postfix mailbox maps
+  ansible.builtin.command: postmap /etc/postfix/mailbox_map-{{ item }}
+  with_items: "{{ hosted_domains }}"
   tags:
     - mailupdate
+  # to make ansible lint happy, will always report "changed"
+  register: postmap
+  changed_when: postmap.rc == 0
 
-- name: newaliases
-  shell: newaliases
+- name: Run newaliases
+  ansible.builtin.command: newaliases
   tags:
     - mailupdate
+  # to make ansible lint happy, will always report "changed"
+  register: newaliases
+  changed_when: newaliases.rc == 0
 
-- name: start enable postfix
-  service:
+- name: Start enable postfix
+  ansible.builtin.service:
     name: postfix
     state: started
-    enabled: yes
+    enabled: true
