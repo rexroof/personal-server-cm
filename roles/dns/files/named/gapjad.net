@@ -1,0 +1,17 @@
+$TTL 14400  ; ( 4 hours = 14400 )
+@       IN      SOA     gapjad.net.   dns-admin.rexroof.com. (
+		2020122901 
+                10800     ; refresh ( 3 hours = 10800 )
+                3600      ; retry  ( 1 hour = 3600 )
+                604800  ; expire  ( 1 week = 604800 )
+                3600 )    ; minimum ttl  ( 1 hr = 3600, 24 hours = 86400 )
+@		IN	NS	dns.rexroof.com.
+@		IN	NS	dns2.rexroof.com.
+@		IN	NS	dns3.rexroof.com.
+@   IN  MX  10 inbound-smtp.us-west-2.amazonaws.com.
+
+_amazonses IN TXT "jeA8MLsATX8tHkEtyh2elpQ5vK7QrJXAMNIUJhtiYUE="
+
+yiaa6xdt7inqmj2i2kqf7cwl5x4lpphe._domainkey IN CNAME yiaa6xdt7inqmj2i2kqf7cwl5x4lpphe.dkim.amazonses.com.
+tov7s334rvs2bwvossgtg2co6zvztqfp._domainkey IN CNAME tov7s334rvs2bwvossgtg2co6zvztqfp.dkim.amazonses.com.
+2r2mgfyulgxc5ec4rpxyveqjdzdwxmdx._domainkey IN CNAME 2r2mgfyulgxc5ec4rpxyveqjdzdwxmdx.dkim.amazonses.com.

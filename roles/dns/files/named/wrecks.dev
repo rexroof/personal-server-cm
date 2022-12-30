@@ -1,0 +1,23 @@
+$TTL 1800  ; ( 4 hours = 14400 )
+wrecks.dev.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
+		2021052101
+                10800   ; refresh ( 3 hours = 10800 )
+                3600    ; retry  ( 1 hour = 3600 )
+                604800  ; expire  ( 1 week = 604800 )
+                86400 )  ; minimum ttl  ( 1 hr = 3600, 24 hours = 86400 )
+@		IN	NS	dns.rexroof.com.
+@		IN	NS	dns2.rexroof.com.
+@		IN	NS	dns3.rexroof.com.
+@		IN	MX	10 pecan.rexroof.com.
+@		IN	MX	10 mesquite.rexroof.com.
+@		IN	MX	10 hickory.rexroof.com.
+
+@        IN TXT  "v=spf1 mx a a:hickory.rexroof.com a:pecan.rexroof.com a:mesquite.rexroof.com include:google.com ~all"
+
+@     IN A 104.244.79.72
+@     IN A 198.98.49.26
+@     IN A 199.19.224.244
+
+*     IN A 104.244.79.72
+*     IN A 198.98.49.26
+*     IN A 199.19.224.244

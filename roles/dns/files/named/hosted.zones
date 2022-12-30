@@ -1,0 +1,12 @@
+// custom zones for rex
+
+zone "rexroof.com" { type master; file "rexroof.com"; };
+zone "roofsfarm.com" { type master; file "roofsfarm.com"; };
+zone "erinmann.com" { type master; file "erinmann.com"; };
+zone "erinm.us" { type master; file "erinm.us"; };
+zone "neomyte.net" { type master; file "neomyte.net"; };
+zone "gapjad.net" { type master; file "gapjad.net"; };
+zone "rexr.us" { type master; file "rexr.us"; };
+zone "beastoftheyear.com" { type master; file "beastoftheyear.com"; };
+zone "jrgrain.com" { type master; file "jrgrain.com"; };
+zone "wrecks.dev" { type master; file "wrecks.dev"; };

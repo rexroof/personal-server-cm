@@ -1,0 +1,35 @@
+- name: install bind packages
+  yum:
+    state: present
+    name:
+    - bind
+    - bind-utils
+
+- name: copy /var/named files
+  copy: src=named/ dest=/var/named/
+  notify: rndc reload
+  tags: 
+    - dnschange
+
+- name: copy /etc/ config files
+  copy: src=etc/ dest=/etc/
+  notify: restart named
+  tags: 
+    - dnschange
+
+- name: put ender in named group
+  user:
+    name: ender
+    groups: named
+    append: yes
+
+# - name: make sure rndc files are created
+# command:  /etc/rc.d/init.d/named stop && /etc/rc.d/init.d/named start
+# args:
+#   creates: /etc/rndc.key
+
+- name: enable / start named
+  service:
+    name: named
+    state: started
+    enabled: yes
