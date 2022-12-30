@@ -1,0 +1,77 @@
+rex: rexroof@gmail.com
+root: rex
+erinrex:  rexroof@gmail.com, erin.m.mann@gmail.com
+party_people: erinrex
+selmabounces:	rexroof@gmail.com
+aaaaa_lisag:	yogalisagottlieb@gmail.com, rexroof@gmail.com
+
+dan.jrgrain: jrgrain@gmail.com,darkstardan@gmail.com
+april.jrgrain: invoice.jrgrain@gmail.com
+jdpage: 2488735739@archwireless.net, jd
+
+mnet-admin:  staff@arbornet.org
+mnetdashadmin:  mnet-admin
+
+abuse:          root
+adm:            root
+apache:         root
+bin:            root
+canna:          root
+daemon:         root
+dbus:           root
+decode:         root
+desktop:        root
+dumper:         root
+ftp-adm:        ftp
+ftp-admin:      ftp
+ftp-bugs:       ftp
+ftp:            root
+ftpadm:         ftp
+ftpadmin:       ftp
+games:          root
+gopher:         root
+halt:           root
+hostmaster:     root
+info:           postmaster
+ingres:         root
+ldap:           root
+lp:             root
+mail:           root
+mailer-daemon:  postmaster
+man:            root
+manager:        root
+marketing:      postmaster
+mysql:          root
+netdump:        root
+news:           root
+newsadm:        news
+newsadmin:      news
+nfsnobody:      root
+nobody:         root
+noc:            root
+nscd:           root
+ntp:            root
+nut:            root
+operator:       root
+rpc:            root
+rpcuser:        root
+rpm:            root
+pcap:           root
+postmaster:     root
+radiusd:        root
+shutdown:       root
+security:       root
+squid:          root
+sales:          postmaster
+support:        postmaster
+sync:           root
+system:         root
+toor:           root
+usenet:         news
+uucp:           root
+vcsa:           root
+webalizer:      root
+webmaster:      root
+wnn:            root
+www:            webmaster
+xten:           root

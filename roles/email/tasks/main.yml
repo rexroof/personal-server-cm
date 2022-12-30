@@ -1,0 +1,42 @@
+- name: install postfix
+  yum: name=postfix state=present
+
+- name: template postfix config
+  template:
+    src: "{{item}}"
+    dest: "/etc/postfix/"
+  with_items:
+    - "master.cf"
+    - "main.cf"
+  notify: restart postfix
+  tags:
+    - mailupdate
+
+- name: copy postfix files over
+  copy: src=etc/ dest=/etc/
+  notify: restart postfix
+  tags:
+    - mailupdate
+
+- name: rebuild postfix alias maps
+  shell: postmap /etc/postfix/alias_map-{{ item }}
+  with_items: "{{hosted_domains}}"
+  tags:
+    - mailupdate
+
+- name: rebuild postfix mailbox maps
+  shell: postmap /etc/postfix/mailbox_map-{{ item }}
+  with_items: "{{hosted_domains}}"
+  tags:
+    - mailupdate
+
+- name: newaliases
+  shell: newaliases
+  tags:
+    - mailupdate
+
+- name: start enable postfix
+  service:
+    name: postfix
+    state: started
+    enabled: yes
