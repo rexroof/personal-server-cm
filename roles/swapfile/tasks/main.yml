@@ -1,29 +1,21 @@
 ---
-- name: create swapfile
-  command: >
-    dd if=/dev/zero of=/swapfile 
-    bs=1MB count={{swapfile_size|default(512)}}
+- name: Create swapfile
+  ansible.builtin.command: >
+    dd if=/dev/zero of={{ swapfile_location }}
+    bs=1MB count={{ swapfile_size }}
   args:
-    creates: "{{swapfile_location|default('/swapfile')}}"
-  register: swapfile_create
+    creates: "{{ swapfile_location }}"
+  notify: Make-start-swap
 
 - name: Set swapfile permissions
-  file: 
-    path: "{{swapfile_location|default('/swapfile')}}"
+  ansible.builtin.file:
+    path: "{{ swapfile_location }}"
     mode: 0600
 
-- name: mkswap swapfile
-  command: mkswap {{swapfile_location|default('/swapfile')}}
-  when: swapfile_create.changed
-
-- name: mkswap swapfile
-  command: swapon {{swapfile_location|default('/swapfile')}}
-  when: swapfile_create.changed
-
-- name: mount swapfile
-  mount:
+- name: Mount swapfile
+  ansible.posix.mount:
     state: present
-    src: "{{swapfile_location|default('/swapfile')}}"
+    src: "{{ swapfile_location }}"
     name: swap
     fstype: swap
     dump: 0

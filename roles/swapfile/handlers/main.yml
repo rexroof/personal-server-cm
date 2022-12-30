@@ -1,0 +1,7 @@
+---
+- name: Make-start-swap
+  ansible.builtin.command:
+    cmd: >
+      sh -c
+      'mkswap {{ swapfile_location }} &&
+      swapon {{ swapfile_location }}'
