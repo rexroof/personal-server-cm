@@ -1,0 +1,31 @@
+---
+- name: create swapfile
+  command: >
+    dd if=/dev/zero of=/swapfile 
+    bs=1MB count={{swapfile_size|default(512)}}
+  args:
+    creates: "{{swapfile_location|default('/swapfile')}}"
+  register: swapfile_create
+
+- name: Set swapfile permissions
+  file: 
+    path: "{{swapfile_location|default('/swapfile')}}"
+    mode: 0600
+
+- name: mkswap swapfile
+  command: mkswap {{swapfile_location|default('/swapfile')}}
+  when: swapfile_create.changed
+
+- name: mkswap swapfile
+  command: swapon {{swapfile_location|default('/swapfile')}}
+  when: swapfile_create.changed
+
+- name: mount swapfile
+  mount:
+    state: present
+    src: "{{swapfile_location|default('/swapfile')}}"
+    name: swap
+    fstype: swap
+    dump: 0
+    passno: 0
+    opts: defaults
