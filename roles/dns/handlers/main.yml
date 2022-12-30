@@ -1,8 +1,8 @@
 ---
+- name: Restart named
+  ansible.builtin.service:
+    name: named
+    state: restarted
 
-- name: restart named
-  service: name=named state=restarted
-
-- name: rndc reload
-  command: rndc reload
-
+- name: Reload rndc
+  ansible.builtin.command: rndc reload

@@ -1,35 +1,42 @@
-- name: install bind packages
-  yum:
+---
+- name: Install bind packages
+  ansible.builtin.yum:
     state: present
     name:
-    - bind
-    - bind-utils
+      - bind
+      - bind-utils
 
-- name: copy /var/named files
-  copy: src=named/ dest=/var/named/
-  notify: rndc reload
-  tags: 
+- name: Copy /var/named files
+  ansible.builtin.copy:
+    src: named/
+    dest: /var/named/
+    mode: '0644'
+  notify: Reload rndc
+  tags:
     - dnschange
 
-- name: copy /etc/ config files
-  copy: src=etc/ dest=/etc/
-  notify: restart named
-  tags: 
+- name: Copy /etc/ config files
+  ansible.builtin.copy:
+    src: etc/
+    dest: /etc/
+    mode: '0640'
+  notify: Restart named
+  tags:
     - dnschange
 
-- name: put ender in named group
-  user:
+- name: Put ender in named group
+  ansible.builtin.user:
     name: ender
     groups: named
-    append: yes
+    append: true
 
-# - name: make sure rndc files are created
+# - name: Make sure rndc files are created
 # command:  /etc/rc.d/init.d/named stop && /etc/rc.d/init.d/named start
 # args:
 #   creates: /etc/rndc.key
 
-- name: enable / start named
-  service:
+- name: Enable / start named
+  ansible.builtin.service:
     name: named
     state: started
-    enabled: yes
+    enabled: true
