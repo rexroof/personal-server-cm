@@ -1,0 +1,104 @@
+---
+- name: install nginx packages
+  yum:
+    state: present
+    name:
+    - nginx
+    - awscli
+
+# this includes proxy for acme-challenge
+- name: install nginx config
+  template:
+    src: virtualhosts.conf
+    dest: /etc/nginx/conf.d/
+  notify: restart nginx
+
+    # grab acme.sh repo for ssl management
+- name: clone acme.sh repo
+  ansible.builtin.git:
+    repo: 'https://github.com/acmesh-official/acme.sh'
+    dest: /home/ender/acme.sh/
+  when: acme_proxy_host
+
+- name: install acme.sh if not already
+  ansible.builtin.command: ./acme.sh --install -m ssl@rexroof.com
+  args:
+    creates: /home/ender/.acme.sh/acme.sh
+    chdir: /home/ender/acme.sh
+
+# I don't remember why I added this
+- name: update types_hash_max_size
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/nginx.conf
+    regexp: '^ *types_hash_max_size'
+    line: "    types_hash_max_size 4096;"
+  notify: restart nginx
+
+- name: default index.html
+  copy:
+    dest: /usr/share/nginx/html/index.html
+    content: |
+      {{ hostname|default(inventory_hostname)|default('unset') }}
+
+- name: change html folder ownership
+  file:
+    state: directory
+    path: /usr/share/nginx/html
+    owner: ender
+    mode: '0755'
+
+- name: nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: cron job for wrecks.dev
+  cron:
+    special_time: hourly
+    name: wrecks-dev
+    user: ender
+    job: >
+      AWS_ACCESS_KEY_ID={{AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY={{AWS_SECRET_ACCESS_KEY}}
+      aws s3 sync --delete
+      s3://rexroof/rexroof/wrecks.dev/
+      /usr/share/nginx/html/wrecks.dev/
+
+- name: cron job for rexroof website
+  cron:
+    special_time: hourly
+    name: rexroof-website
+    user: ender
+    job: >
+      AWS_ACCESS_KEY_ID={{AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY={{AWS_SECRET_ACCESS_KEY}}
+      aws s3 sync --delete
+      s3://rexroof/rexroof/rexroof.com/
+      /usr/share/nginx/html/rexroof.com/
+
+- name: backup acme.sh folder on acme proxy server
+  cron:
+    special_time: daily
+    name: acme-backup
+    user: ender
+    job: >
+      AWS_ACCESS_KEY_ID={{AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY={{AWS_SECRET_ACCESS_KEY}}
+      aws s3 sync --delete
+      /home/ender/.acme.sh/
+      s3://rexroof-acme-us-east-2/acme.sh/
+  when: not acme_proxy_host
+
+- name: sync acme.sh folder on other servers
+  cron:
+    special_time: daily
+    name: acme-sync
+    user: ender
+    job: >
+      AWS_ACCESS_KEY_ID={{AWS_ACCESS_KEY_ID}}
+      AWS_SECRET_ACCESS_KEY={{AWS_SECRET_ACCESS_KEY}}
+      aws s3 sync --delete
+      s3://rexroof-acme-us-east-2/acme.sh/
+      /home/ender/.acme.sh/
+  when: acme_proxy_host
