@@ -1,12 +1,12 @@
 - hosts: all
-  become: yes
-  roles: 
+  become: true
+  roles:
     - { role: common, tags: ['common_tag'] }
-    - { role: swapfile, tags: ['swapfile_tag'] , when: enable_swapfile|default(true) }
-    - { role: ender,  tags: ['ender_tag'] }
-    - { role: email,  tags: ['email_tag'] }
-    - { role: dns,    tags: ['dns_tag'] }
-    - { role: nginx-web,    tags: ['web_tag'] }
-    - { role: cron_scripts,    tags: ['cron_scripts_tag'] }
-  handlers: 
-    - include: handlers.yml
+    - { role: swapfile, tags: ['swapfile_tag'], when: enable_swapfile|default(true) }
+    - { role: ender, tags: ['ender_tag'] }
+    - { role: email, tags: ['email_tag'] }
+    - { role: dns, tags: ['dns_tag'] }
+    - { role: nginx_web, tags: ['web_tag'] }
+    - { role: cron_scripts, tags: ['cron_scripts_tag'] }
+  handlers:
+    - include_tasks: handlers.yml

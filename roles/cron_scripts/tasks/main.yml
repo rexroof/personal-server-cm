@@ -1,22 +1,22 @@
 ---
-
-- name: copy cron scripts into place
-  copy:
-    src: "{{item}}"
-    dest: "/home/ender/cron/"
+- name: Copy cron scripts into place
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "/home/ender/cron/{{ item }}"
+    mode: '0755'
   with_items:
     - "aadl_renew.py"
 
-- name: install python deps
-  yum:
+- name: Install python deps
+  ansible.builtin.yum:
     name: python-requests
 
-- name: enable aadl_renew cron
-  cron:
+- name: Enable aadl_renew cron
+  ansible.builtin.cron:
     name: "aadl_renew"
     user: ender
     minute: "0"
     hour: "2"
     weekday: "2"
     job: "python /home/ender/cron/aadl_renew.py"
-    state: "{{aadl_cron|default('absent')}}"   # aadl_cron=present to enable
+    state: "{{ aadl_cron | default('absent') }}"   # aadl_cron=present to enable
