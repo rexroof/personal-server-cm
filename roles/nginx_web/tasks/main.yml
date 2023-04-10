@@ -47,7 +47,9 @@
   ansible.builtin.file:
     state: directory
     path: /usr/share/nginx/html
+    recurse: true
     owner: ender
+    group: ender
     mode: '0755'
 
 - name: Nginx service
@@ -105,3 +107,10 @@
       s3://rexroof-acme-us-east-2/acme.sh/
       /home/ender/.acme.sh/
   when: acme_proxy_host
+
+- name: Reload nginx once a day to pick up ssl certs
+  ansible.builtin.cron:
+    special_time: daily
+    name: nginx-reload
+    user: root
+    job: systemctl reload nginx
