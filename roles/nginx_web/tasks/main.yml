@@ -90,7 +90,7 @@
     job: >
       AWS_ACCESS_KEY_ID={{ AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY={{ AWS_SECRET_ACCESS_KEY }}
-      aws s3 sync --delete
+      aws s3 sync --delete --exact-timestamps
       /home/ender/.acme.sh/
       s3://rexroof-acme-us-east-2/acme.sh/
   when: not acme_proxy_host
@@ -103,7 +103,7 @@
     job: >
       AWS_ACCESS_KEY_ID={{ AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY={{ AWS_SECRET_ACCESS_KEY }}
-      aws s3 sync --delete
+      aws s3 sync --delete --exact-timestamps
       s3://rexroof-acme-us-east-2/acme.sh/
       /home/ender/.acme.sh/
   when: acme_proxy_host
