@@ -1,6 +1,6 @@
 $TTL 1800  ; ( 4 hours = 14400 )
 rexroof.com.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
-		2022122901
+		2024111801
         3600 ; refresh [1h]
         600  ; retry [10m]
         1209600 ; expire [14d]
@@ -23,6 +23,7 @@ _DMARC   IN TXT  "v=DMARC1; p=none; rua=mailto:dmarc-reports@rexroof.com; ruf=ma
 dns  IN A 104.244.79.72
 dns2 IN A 199.19.224.244
 dns3 IN A 198.98.49.26
+
 
 porco    IN A 104.244.72.217
 puerco   IN A 198.98.53.42
@@ -50,6 +51,7 @@ home    IN CNAME rex001.duckdns.org.
 ; home	IN A 73.145.182.72 ;  dec 20 2018 - dexter rd
 m-net	IN A 64.9.205.95
 newmnet	IN A 69.39.89.95
+_atproto IN TXT "did=did:plc:aqgnwyazaulj5cep4yp7v4cj"
 
 jenkins     IN A    35.184.60.88
 
