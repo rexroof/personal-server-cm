@@ -7,10 +7,18 @@
       - awscli
 
 # this includes proxy for acme-challenge
-- name: Install nginx config
+- name: Install nginx virtualhosts config
   ansible.builtin.template:
     src: virtualhosts.conf
     dest: /etc/nginx/conf.d/
+    mode: '0644'
+  notify: Restart nginx
+
+# this includes proxy for acme-challenge for default_server
+- name: Install nginx default config
+  ansible.builtin.template:
+    src: nginx.conf
+    dest: /etc/nginx/
     mode: '0644'
   notify: Restart nginx
 
