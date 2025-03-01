@@ -55,3 +55,10 @@
     name: postfix
     state: started
     enabled: true
+
+- name: Reload postfix once a day to pick up ssl certs
+  ansible.builtin.cron:
+    special_time: daily
+    name: postfix-reload
+    user: root
+    job: systemctl reload postfix

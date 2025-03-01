@@ -1,3 +1,14 @@
+# TLS settings
+smtpd_tls_security_level=may
+smtpd_tls_chain_files =
+    /home/ender/.acme.sh/{{inventory_hostname}}/{{inventory_hostname}}.key,
+    /home/ender/.acme.sh/{{inventory_hostname}}/fullchain.cer
+
+# outbound TLS
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtp_tls_security_level = dane
+smtp_dns_support_level = dnssec
+
 # Global Postfix configuration file. This file lists only a subset
 # of all parameters. For the syntax, and for a complete parameter
 # list, see the postconf(5) manual page (command: "man 5 postconf").
@@ -301,7 +312,6 @@ mynetworks = 205.185.125.63/32, 104.244.72.217/32, 198.98.53.42/32
 # permit_mx_backup restriction description in postconf(5).
 #
 #relay_domains = $mydestination
-
 
 smtpd_recipient_restrictions =
             permit_mynetworks,
