@@ -17,11 +17,18 @@
   tags:
     - mailupdate
 
-- name: configure postsrsd
+- name: configure postsrsd EXCLUDE_DOMAINS
   ansible.builtin.lineinfile:
     path: /etc/default/postsrsd
     regexp: '^SRS_EXCLUDE_DOMAINS='
     line: "SRS_EXCLUDE_DOMAINS=rexroof.com,erinmann.com,jrgrain.com"
+  notify: Restart postsrsd
+
+- name: configure postsrsd SRS_DOMAIN
+  ansible.builtin.lineinfile:
+    path: /etc/default/postsrsd
+    regexp: '^SRS_DOMAIN='
+    line: "SRS_DOMAIN={{inventory_hostname}}"
   notify: Restart postsrsd
 
 - name: Copy postfix files over
