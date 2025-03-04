@@ -1,6 +1,8 @@
-- name: Install postfix
-  ansible.builtin.yum:
-    name: postfix
+- name: Install email packages
+  ansible.builtin.dnf:
+    name:
+     - postfix
+     - postsrsd
     state: present
 
 - name: Template postfix config
@@ -14,6 +16,13 @@
   notify: Restart postfix
   tags:
     - mailupdate
+
+- name: configure postsrsd
+  ansible.builtin.lineinfile:
+    path: /etc/default/postsrsd
+    regexp: '^SRS_EXCLUDE_DOMAINS='
+    line: "SRS_EXCLUDE_DOMAINS=rexroof.com,erinmann.com,jrgrain.com"
+  notify: Restart postsrsd
 
 - name: Copy postfix files over
   ansible.builtin.copy:
@@ -49,6 +58,12 @@
   # to make ansible lint happy, will always report "changed"
   register: newaliases
   changed_when: newaliases.rc == 0
+
+- name: Start enable postsrsd
+  ansible.builtin.service:
+    name: postsrsd
+    state: started
+    enabled: true
 
 - name: Start enable postfix
   ansible.builtin.service:
