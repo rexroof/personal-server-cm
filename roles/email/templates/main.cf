@@ -313,6 +313,8 @@ mynetworks = 205.185.125.63/32, 104.244.72.217/32, 198.98.53.42/32
 #
 #relay_domains = $mydestination
 
+smtp_address_preference = ipv4
+
 smtpd_recipient_restrictions =
             permit_mynetworks,
             reject_unauth_destination,

@@ -1,6 +1,6 @@
 $TTL 1800  ; ( 4 hours = 14400 )
 rexroof.com.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
-		2024111801
+	2025030401
         3600 ; refresh [1h]
         600  ; retry [10m]
         1209600 ; expire [14d]
@@ -14,7 +14,7 @@ rexroof.com.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
 @		IN	MX	10 hickory.rexroof.com.
 
 @        IN TXT  "v=spf1 mx a a:hickory.rexroof.com a:pecan.rexroof.com a:mesquite.rexroof.com include:google.com ~all"
-_DMARC   IN TXT  "v=DMARC1; p=none; rua=mailto:dmarc-reports@rexroof.com; ruf=mailto:dmarc-fails@rexroof.com"
+_DMARC   IN TXT  "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; ruf=mailto:dmarc-fails@rexroof.com"
 
 @     IN A 104.244.79.72
 @     IN A 198.98.49.26
