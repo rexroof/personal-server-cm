@@ -8,5 +8,3 @@
     - { role: dns, tags: ['dns_tag'] }
     - { role: nginx_web, tags: ['web_tag'] }
     - { role: cron_scripts, tags: ['cron_scripts_tag'] }
-  handlers:
-    - include_tasks: handlers.yml

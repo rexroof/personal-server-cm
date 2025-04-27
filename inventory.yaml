@@ -15,3 +15,23 @@ all:
       ansible_host: 199.19.224.244
       ansible_python_interpreter: /usr/bin/python3
       acme_proxy_host: 198.98.49.26
+    peach.rexroof.com:
+      site: rn_atlanta
+      ansible_host: 192.3.16.5
+      ansible_python_interpreter: /usr/bin/python3
+      acme_proxy_host: 198.98.49.26
+    orange.rexroof.com:
+      site: rn_sanjose
+      ansible_host: 107.175.28.54
+      ansible_python_interpreter: /usr/bin/python3
+      acme_proxy_host: 198.98.49.26
+    strawberry.rexroof.com:
+      site: rn_chicago
+      ansible_host: 172.245.240.22
+      ansible_python_interpreter: /usr/bin/python3
+      acme_proxy_host: 198.98.49.26
+    plum.rexroof.com:
+      site: rn_newyork
+      ansible_host: 23.95.14.209
+      ansible_python_interpreter: /usr/bin/python3
+      acme_proxy_host: 198.98.49.26
