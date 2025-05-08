@@ -11,7 +11,8 @@
     uid: 901
     move_home: true
     home: /home/ender
-    groups: wheel
+    groups: sudo
+    #groups: wheel
 
 # add ssh key
 - name: Ssh key

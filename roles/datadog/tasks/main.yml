@@ -1,0 +1,14 @@
+---
+- name: Download datadog install script
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/DataDog/datadog-agent/master/cmd/agent/install_script.sh
+    dest: /home/ender/datadog_install.sh
+    mode: '0755'
+
+- name: Run datadog installer
+  ansible.builtin.command: /home/ender/datadog_install.sh
+  become: yes
+  args:
+    creates: /opt/datadog-agent/bin/agent/agent
+  environment:
+    DD_API_KEY: '{{ DD_API_KEY }}'

@@ -1,10 +1,13 @@
 ---
 - name: Install bind packages
-  ansible.builtin.yum:
+  ansible.builtin.package:
     state: present
     name:
-      - bind
-      - bind-utils
+      #- bind
+      #- bind-utils
+      - bind9
+      - bind9-utils
+      - bind9-dnsutils
 
 - name: Copy /var/named files
   ansible.builtin.copy:
@@ -27,7 +30,8 @@
 - name: Put ender in named group
   ansible.builtin.user:
     name: ender
-    groups: named
+    #groups: named
+    groups: bind
     append: true
 
 # - name: Make sure rndc files are created

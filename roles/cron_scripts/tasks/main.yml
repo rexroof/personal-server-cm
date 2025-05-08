@@ -1,4 +1,10 @@
 ---
+- name: Make cron folder
+  ansible.builtin.file:
+    path: /home/ender/cron
+    state: directory
+    mode: '0755'
+
 - name: Copy cron scripts into place
   ansible.builtin.template:
     src: "{{ item }}"
@@ -8,8 +14,9 @@
     - "aadl_renew.py"
 
 - name: Install python deps
-  ansible.builtin.yum:
-    name: python-requests
+  ansible.builtin.package:
+    #name: python-requests
+    name: python3-requests
 
 - name: Enable aadl_renew cron
   ansible.builtin.cron:

@@ -4,30 +4,42 @@
     name: "{{ hostname | default(inventory_hostname) | default('unset') }}"
   tags: set_hostname
 
+- name: Remove unattended upgrades
+  ansible.builtin.package:
+    name: unattended-upgrades
+    state: absent
+  when: ansible_distribution_file_variety == "Debian"
+
 - name: Remove sendmail
-  ansible.builtin.yum:
+  ansible.builtin.package:
     name: sendmail
     state: absent
 
 - name: Add epel to system
-  ansible.builtin.yum:
+  ansible.builtin.package:
     name: epel-release
     state: present
-  when: not  (ansible_facts['distribution'] == "Fedora" and ansible_facts['distribution_major_version'] >= "30")
+  when: ansible_distribution == "Fedora"
 
 - name: Install packages
-  ansible.builtin.yum:
+  ansible.builtin.package:
     state: present
     name:
       - sudo
       - lsof
       - rsyslog
       - rsync
-      - perl-App-cpanminus
+      - cpanminus   # why need this?:wq
       - tmux
       - htop
-      - cronie
-  notify: start-enable-rsyslog
+      #- cronie
+      #- perl-App-cpanminus
+
+- name: Start and enable rsyslog
+  ansible.builtin.service:
+    name: rsyslog
+    enabled: yes
+    state: started
 
 - name: Add compression to logrotate
   ansible.builtin.lineinfile:
@@ -43,8 +55,9 @@
     enabled: true
   tags: logrotate
 
-- name: Start enable cronie
+- name: Start enable cron daemon
   ansible.builtin.service:
-    name: crond
+    #name: crond
+    name: cron
     state: started
     enabled: true

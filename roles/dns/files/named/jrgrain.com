@@ -1,6 +1,6 @@
 $TTL 14400  ; ( 4 hours = 14400 )
 @       IN      SOA     jrgrain.com.   dns-admin.rexroof.com. (
-          2025033101
+          2025042701
           3600 3600 3600 3600 )
 
           ; 10800     ; refresh ( 3 hours = 10800 )
@@ -17,7 +17,7 @@ $TTL 14400  ; ( 4 hours = 14400 )
 @		IN	MX	10 hickory.rexroof.com.
 
 @        IN TXT  "v=spf1 mx a a:hickory.rexroof.com a:pecan.rexroof.com a:mesquite.rexroof.com include:_spf.google.com ~all"
-_DMARC   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=s; aspf=s;"
+_DMARC   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
 
 @		IN	A 216.55.155.66
 *		IN	A 216.55.155.66

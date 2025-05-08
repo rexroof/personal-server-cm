@@ -4,6 +4,7 @@
     - { role: common, tags: ['common_tag'] }
     - { role: swapfile, tags: ['swapfile_tag'], when: enable_swapfile|default(true) }
     - { role: ender, tags: ['ender_tag'] }
+    - { role: datadog, tags: ['datadog_tag'] }
     - { role: email, tags: ['email_tag'] }
     - { role: dns, tags: ['dns_tag'] }
     - { role: nginx_web, tags: ['web_tag'] }
