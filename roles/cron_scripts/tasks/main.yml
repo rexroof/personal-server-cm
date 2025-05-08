@@ -13,10 +13,15 @@
   with_items:
     - "aadl_renew.py"
 
-- name: Install python deps
+- name: Install python deps (Debian)
   ansible.builtin.package:
-    #name: python-requests
     name: python3-requests
+  when: ansible_distribution == "Debian"
+
+- name: Install python deps (Fedora)
+  ansible.builtin.package:
+    name: python-requests
+  when: ansible_distribution == "Fedora"
 
 - name: Enable aadl_renew cron
   ansible.builtin.cron:

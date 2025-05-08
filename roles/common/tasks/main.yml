@@ -21,7 +21,7 @@
     state: present
   when: ansible_distribution == "Fedora"
 
-- name: Install packages
+- name: Install packages (Debian)
   ansible.builtin.package:
     state: present
     name:
@@ -29,11 +29,24 @@
       - lsof
       - rsyslog
       - rsync
-      - cpanminus   # why need this?:wq
+      - cpanminus   # why need this?
       - tmux
       - htop
-      #- cronie
-      #- perl-App-cpanminus
+  when: ansible_distribution == "Debian"
+
+- name: Install packages (Fedora)
+  ansible.builtin.package:
+    state: present
+    name:
+      - sudo
+      - lsof
+      - rsyslog
+      - rsync
+      - tmux
+      - htop
+      - cronie
+      - perl-App-cpanminus # why need this?
+  when: ansible_distribution == "Fedora"
 
 - name: Start and enable rsyslog
   ansible.builtin.service:
@@ -55,9 +68,16 @@
     enabled: true
   tags: logrotate
 
-- name: Start enable cron daemon
+- name: Start enable cron daemon on Debian
   ansible.builtin.service:
-    #name: crond
     name: cron
     state: started
     enabled: true
+  when: ansible_distribution == "Debian"
+
+- name: Start enable crond on Fedora
+  ansible.builtin.service:
+    name: crond
+    state: started
+    enabled: true
+  when: ansible_distribution == "Fedora"

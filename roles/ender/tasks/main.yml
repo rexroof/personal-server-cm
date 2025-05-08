@@ -11,8 +11,22 @@
     uid: 901
     move_home: true
     home: /home/ender
+    shell: /bin/bash
     groups: sudo
-    #groups: wheel
+  when: ansible_distribution == "Debian"
+
+- name: Create user ender
+  ansible.builtin.user:
+    append: true
+    name: ender
+    comment: "enders game is ansible"
+    createhome: true
+    uid: 901
+    move_home: true
+    home: /home/ender
+    shell: /bin/bash
+    groups: wheel
+  when: ansible_distribution == "Fedora"
 
 # add ssh key
 - name: Ssh key

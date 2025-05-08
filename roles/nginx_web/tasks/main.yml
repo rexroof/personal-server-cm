@@ -6,6 +6,16 @@
       - nginx
       - awscli
 
+- name: web user on Fedora is nginx
+  set_fact:
+    web_user: 'nginx'
+  when: ansible_distribution == "Fedora"
+
+- name: web user on Debian is www-data
+  set_fact:
+    web_user: 'www-data'
+  when: ansible_distribution == "Debian"
+
 # this includes proxy for acme-challenge
 - name: Install nginx virtualhosts config
   ansible.builtin.template:
