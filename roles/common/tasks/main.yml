@@ -19,7 +19,8 @@
   ansible.builtin.package:
     name: epel-release
     state: present
-  when: ansible_distribution == "Fedora"
+  # this is only needed in earlier versions of fedora
+  when: ansible_distribution == "Fedora" and ansible_distribution_major_version|int < 30
 
 - name: Install packages (Debian)
   ansible.builtin.package:
