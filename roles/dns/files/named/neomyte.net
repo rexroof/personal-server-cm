@@ -1,6 +1,6 @@
 $TTL 14400  ; ( 4 hours = 14400 )
 @       IN      SOA     neomyte.net.   dns-admin.rexroof.com. (
-		2020040401 
+		2025081401
                 10800     ; refresh ( 3 hours = 10800 )
                 3600      ; retry  ( 1 hour = 3600 )
                 604800  ; expire  ( 1 week = 604800 )
@@ -14,6 +14,7 @@ $TTL 14400  ; ( 4 hours = 14400 )
 @		IN	MX	10 hickory.rexroof.com.
 
 @        IN TXT  "v=spf1 mx a a:hickory.rexroof.com a:pecan.rexroof.com a:mesquite.rexroof.com include:google.com ~all"
+default._domainkey  IN TXT  "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDgYbX3vyobtOQjbbKrD+lmTnp4mtyDArMcvZtQ+Ri+VaPPrPktGiB/YDGgiAFhtrM+UvX2uchcN8+g/DYVcSXmIQ57Mf7PJIuAmoCa0RxRHGs2G04H9/C7Q0ByRrN5jkFSExRQuJQhV7gCAXni4TM1BvZ2r7l16qsRQtw20//cNQIDAQAB"
 
 @     IN A 104.244.79.72
 @     IN A 198.98.49.26

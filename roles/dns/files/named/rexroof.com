@@ -1,6 +1,6 @@
 $TTL 1800  ; ( 4 hours = 14400 )
 rexroof.com.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
-	2025042701
+	2025081401
         3600 ; refresh [1h]
         600  ; retry [10m]
         1209600 ; expire [14d]
@@ -15,6 +15,7 @@ rexroof.com.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
 
 @        IN TXT  "v=spf1 mx a a:hickory.rexroof.com a:pecan.rexroof.com a:mesquite.rexroof.com include:_spf.google.com ~all"
 _DMARC   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
+default._domainkey  IN TXT  "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQChaM+/eK4UDwgHw84x4lbsjENqIwA1vPOQfDSlPUgkmW8Fp3lB9B5p8brM8r+oIo/cZxCbdzpezeBfss7f6uQVOS33b4Bc9Re9t6GgWYxvEp7iM2/trATe+EOp6TAFpv+9E3/mztSjSgUjuHXsCdGQq8wWQeIiSDpohKBFfp0usQIDAQAB"
 
 @     IN A 104.244.79.72
 @     IN A 198.98.49.26
@@ -24,13 +25,14 @@ dns  IN A 104.244.79.72
 dns2 IN A 199.19.224.244
 dns3 IN A 198.98.49.26
 
-
-porco    IN A 104.244.72.217
-puerco   IN A 198.98.53.42
-porcine  IN A 205.185.125.63
-pigs     IN A 104.244.72.217
-pigs     IN A 198.98.53.42
-pigs     IN A 205.185.125.63
+peach      IN A 192.3.16.5
+orange     IN A 107.175.28.54
+plum       IN A 23.95.14.209
+strawberry IN A 172.245.240.22
+fruits  IN A 192.3.16.5
+fruits  IN A 107.175.28.54
+fruits  IN A 23.95.14.209
+fruits  IN A 172.245.240.22
 
 hickory  IN A 104.244.79.72
 pecan    IN A 198.98.49.26

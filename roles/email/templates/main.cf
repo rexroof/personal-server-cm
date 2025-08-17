@@ -750,3 +750,8 @@ always_add_missing_headers = yes
 virtual_mailbox_domains = {{ hosted_domains|join(', ') }}
 virtual_mailbox_maps = {{ mbox_maps|join(', ') }}
 virtual_alias_maps = {{ alias_maps|join(', ') }}
+
+milter_default_action = accept
+milter_protocol = 2
+smtpd_milters = inet:localhost:8891
+non_smtpd_milters = inet:localhost:8891

@@ -8,3 +8,8 @@
   ansible.builtin.service:
     name: postsrsd
     state: restarted
+
+- name: Restart opendkim
+  ansible.builtin.service:
+    name: opendkim
+    state: restarted

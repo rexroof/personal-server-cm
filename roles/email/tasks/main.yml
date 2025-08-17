@@ -1,8 +1,14 @@
+---
+- name: Include dkim keys variable file
+  ansible.builtin.include_vars:
+    file: dkim_keys.yml
+
 - name: Install email packages
   ansible.builtin.package:
     name:
      - postfix
      - postsrsd
+     - opendkim
     state: present
 
 - name: Template postfix config
@@ -17,14 +23,14 @@
   tags:
     - mailupdate
 
-- name: configure postsrsd EXCLUDE_DOMAINS
+- name: Configure postsrsd EXCLUDE_DOMAINS
   ansible.builtin.lineinfile:
     path: /etc/default/postsrsd
     regexp: '^SRS_EXCLUDE_DOMAINS='
     line: "SRS_EXCLUDE_DOMAINS=rexroof.com,erinmann.com,jrgrain.com"
   notify: Restart postsrsd
 
-- name: configure postsrsd SRS_DOMAIN
+- name: Configure postsrsd SRS_DOMAIN
   ansible.builtin.lineinfile:
     path: /etc/default/postsrsd
     regexp: '^SRS_DOMAIN='
@@ -66,9 +72,89 @@
   register: newaliases
   changed_when: newaliases.rc == 0
 
+
+# DKIM setup taken from here:
+# https://jackstromberg.com/2024/01/configuring-dkim-for-postfix/
+# https://easyengine.io/tutorials/mail/setup-opendkim/
+
+- name: Update opendkim TrustedHosts
+  ansible.builtin.lineinfile:
+    path: /etc/opendkim/TrustedHosts
+    line: "{{ item }}"
+  loop:
+    - "127.0.0.1"
+    - "::1"
+    - "localhost"
+    - "rexroof.com"
+    - "erinmann.com"
+    - "jrgrain.com"
+    - "{{inventory_hostname}}"
+    - "{{ansible_host}}"
+  notify: Restart opendkim
+
+- name: Edit opendkim.conf
+  ansible.builtin.lineinfile:
+    path: /etc/opendkim.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { regexp: '^Canonicalization',   line: 'Canonicalization relaxed/relaxed' }
+    - { regexp: '^ExternalIgnoreList', line: 'ExternalIgnoreList /etc/opendkim/TrustedHosts' }
+    - { regexp: '^Mode',          line: 'Mode s' }
+    - { regexp: '^Socket',        line: 'Socket inet:8891@localhost' }
+    - { regexp: '^KeyTable',      line: 'KeyTable /etc/opendkim/KeyTable' }
+    - { regexp: '^SigningTable',  line: 'SigningTable /etc/opendkim/SigningTable' }
+    - { regexp: '^InternalHosts', line: 'InternalHosts /etc/opendkim/TrustedHosts' }
+  notify: Restart opendkim
+
+- name: Make opendkim key folders
+  ansible.builtin.file:
+    path: "/etc/opendkim/keys/{{ item }}"
+    state: directory
+    owner: "opendkim"
+  with_items: "{{ hosted_domains }}"
+  notify: Restart opendkim
+
+- name: Generate opendkim KeyTable file
+  ansible.builtin.lineinfile:
+    path: /etc/opendkim/KeyTable
+    line: "default._domainkey.{{item}} {{item}}:default:/etc/opendkim/keys/{{item}}/default.private"
+  with_items: "{{ hosted_domains }}"
+  notify: Restart opendkim
+
+- name: Generate opendkim SigningTable file
+  ansible.builtin.lineinfile:
+    path: /etc/opendkim/SigningTable
+    line: "{{item}} default._domainkey.{{item}}"
+  with_items: "{{ hosted_domains }}"
+  notify: Restart opendkim
+
+# copy each key into /etc/opendkim/keys/mydomain.com/default.private
+- name: Copy keys into keys folders
+  ansible.builtin.copy:
+    dest: "/etc/opendkim/keys/{{ item.domain }}/default.private"
+    content: "{{ item.private }}"
+    mode: 0600
+    owner: "opendkim"
+  with_items: "{{ dkim_keys }}"
+  notify: Restart opendkim
+
+- name: Reload postfix once a day to pick up ssl certs
+  ansible.builtin.cron:
+    special_time: daily
+    name: postfix-reload
+    user: root
+    job: systemctl reload postfix
+
 - name: Start enable postsrsd
   ansible.builtin.service:
     name: postsrsd
+    state: started
+    enabled: true
+
+- name: Start enable opendkim
+  ansible.builtin.service:
+    name: opendkim
     state: started
     enabled: true
 
@@ -77,10 +163,3 @@
     name: postfix
     state: started
     enabled: true
-
-- name: Reload postfix once a day to pick up ssl certs
-  ansible.builtin.cron:
-    special_time: daily
-    name: postfix-reload
-    user: root
-    job: systemctl reload postfix
