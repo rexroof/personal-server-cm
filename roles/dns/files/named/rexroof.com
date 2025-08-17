@@ -1,6 +1,6 @@
 $TTL 1800  ; ( 4 hours = 14400 )
 rexroof.com.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
-	2025081401
+	2025081701
         3600 ; refresh [1h]
         600  ; retry [10m]
         1209600 ; expire [14d]
@@ -13,7 +13,7 @@ rexroof.com.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
 @		IN	MX	10 mesquite.rexroof.com.
 @		IN	MX	10 hickory.rexroof.com.
 
-@        IN TXT  "v=spf1 mx a a:hickory.rexroof.com a:pecan.rexroof.com a:mesquite.rexroof.com include:_spf.google.com ~all"
+@        IN TXT  "v=spf1 mx a a:hickory.rexroof.com a:pecan.rexroof.com a:mesquite.rexroof.com a:peach.rexroof.com a:orange.rexroof.com a:plum.rexroof.com a:strawberry.rexroof.com include:_spf.google.com ~all"
 _DMARC   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
 default._domainkey  IN TXT  "v=DKIM1; k=rsa; s=email; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQChaM+/eK4UDwgHw84x4lbsjENqIwA1vPOQfDSlPUgkmW8Fp3lB9B5p8brM8r+oIo/cZxCbdzpezeBfss7f6uQVOS33b4Bc9Re9t6GgWYxvEp7iM2/trATe+EOp6TAFpv+9E3/mztSjSgUjuHXsCdGQq8wWQeIiSDpohKBFfp0usQIDAQAB"
 
@@ -26,17 +26,24 @@ dns2 IN A 199.19.224.244
 dns3 IN A 198.98.49.26
 
 peach      IN A 192.3.16.5
+peach      IN TXT  "v=spf1 a a:peach.rexroof.com ~all"
 orange     IN A 107.175.28.54
+orange     IN TXT  "v=spf1 a a:orange.rexroof.com ~all"
 plum       IN A 23.95.14.209
+plum       IN TXT  "v=spf1 a a:plum.rexroof.com ~all"
 strawberry IN A 172.245.240.22
+strawberry IN TXT  "v=spf1 a a:strawberry.rexroof.com ~all"
 fruits  IN A 192.3.16.5
 fruits  IN A 107.175.28.54
 fruits  IN A 23.95.14.209
 fruits  IN A 172.245.240.22
 
 hickory  IN A 104.244.79.72
+hickory  IN TXT  "v=spf1 a a:hickory.rexroof.com ~all"
 pecan    IN A 198.98.49.26
+pecan    IN TXT  "v=spf1 a a:pecan.rexroof.com ~all"
 mesquite IN A 199.19.224.244
+mesquite IN TXT  "v=spf1 a a:mesquite.rexroof.com ~all"
 smokes   IN A 104.244.79.72
 smokes   IN A 198.98.49.26
 smokes   IN A 199.19.224.244
