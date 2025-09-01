@@ -1,0 +1,46 @@
+---
+- name: Install bind packages
+  ansible.builtin.package:
+    state: present
+    name:
+      - bind
+      - bind-utils
+
+- name: Copy Zone files
+  ansible.builtin.copy:
+    src: zonefiles/
+    dest: /var/named/
+    mode: '0644'
+  notify: Reload rndc
+  tags:
+    - dnschange
+
+- name: Update hosted zones file
+  ansible.builtin.copy:
+    src: hosted.zones
+    dest: /var/named/
+    mode: '0644'
+  notify: Reload rndc
+  tags:
+    - dnschange
+
+- name: Update named config
+  ansible.builtin.copy:
+    src: fedora_named.conf
+    dest: /etc/named.conf
+    mode: '0640'
+  notify: Restart named
+  tags:
+    - dnschange
+
+- name: Put ender in named group
+  ansible.builtin.user:
+    name: ender
+    groups: named
+    append: true
+
+- name: Enable / start named
+  ansible.builtin.service:
+    name: named
+    state: started
+    enabled: true

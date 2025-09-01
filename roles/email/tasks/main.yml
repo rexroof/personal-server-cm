@@ -76,10 +76,16 @@
 # DKIM setup taken from here:
 # https://jackstromberg.com/2024/01/configuring-dkim-for-postfix/
 # https://easyengine.io/tutorials/mail/setup-opendkim/
+#
+- name: Create opendkim config folder
+  ansible.builtin.file:
+    state: directory
+    path: /etc/opendkim
 
 - name: Update opendkim TrustedHosts
   ansible.builtin.lineinfile:
     path: /etc/opendkim/TrustedHosts
+    create: true
     line: "{{ item }}"
   loop:
     - "127.0.0.1"
@@ -117,6 +123,7 @@
 
 - name: Generate opendkim KeyTable file
   ansible.builtin.lineinfile:
+    create: true
     path: /etc/opendkim/KeyTable
     line: "default._domainkey.{{item}} {{item}}:default:/etc/opendkim/keys/{{item}}/default.private"
   with_items: "{{ hosted_domains }}"
@@ -125,6 +132,7 @@
 - name: Generate opendkim SigningTable file
   ansible.builtin.lineinfile:
     path: /etc/opendkim/SigningTable
+    create: true
     line: "{{item}} default._domainkey.{{item}}"
   with_items: "{{ hosted_domains }}"
   notify: Restart opendkim

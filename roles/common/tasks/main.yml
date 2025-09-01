@@ -33,6 +33,7 @@
       - cpanminus   # why need this?
       - tmux
       - htop
+      - git
   when: ansible_distribution == "Debian"
 
 - name: Install packages (Fedora)

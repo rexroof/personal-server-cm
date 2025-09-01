@@ -1,60 +1,8 @@
 ---
-- name: Install bind packages (Debian)
-  ansible.builtin.package:
-    state: present
-    name:
-      - bind9
-      - bind9-utils
-      - bind9-dnsutils
+- name: Debian DNS tasks
+  ansible.builtin.include_tasks: debian.yml
   when: ansible_distribution == "Debian"
 
-- name: Install bind packages (Fedora)
-  ansible.builtin.package:
-    state: present
-    name:
-      - bind
-      - bind-utils
+- name: Fedora DNS tasks
+  ansible.builtin.include_tasks: fedora.yml
   when: ansible_distribution == "Fedora"
-
-- name: Copy /var/named files
-  ansible.builtin.copy:
-    src: named/
-    dest: /var/named/
-    mode: '0644'
-  notify: Reload rndc
-  tags:
-    - dnschange
-
-- name: Copy /etc/ config files
-  ansible.builtin.copy:
-    src: etc/
-    dest: /etc/
-    mode: '0640'
-  notify: Restart named
-  tags:
-    - dnschange
-
-- name: Put ender in named group (Debian)
-  ansible.builtin.user:
-    name: ender
-    groups: bind
-    append: true
-  when: ansible_distribution == "Debian"
-
-- name: Put ender in named group (Fedora)
-  ansible.builtin.user:
-    name: ender
-    groups: named
-    append: true
-  when: ansible_distribution == "Fedora"
-
-# - name: Make sure rndc files are created
-# command:  /etc/rc.d/init.d/named stop && /etc/rc.d/init.d/named start
-# args:
-#   creates: /etc/rndc.key
-
-- name: Enable / start named
-  ansible.builtin.service:
-    name: named
-    state: started
-    enabled: true

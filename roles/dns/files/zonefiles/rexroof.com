@@ -1,6 +1,6 @@
 $TTL 1800  ; ( 4 hours = 14400 )
 rexroof.com.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
-	2025081701
+	2025083001
         3600 ; refresh [1h]
         600  ; retry [10m]
         1209600 ; expire [14d]
@@ -27,12 +27,16 @@ dns3 IN A 198.98.49.26
 
 peach      IN A 192.3.16.5
 peach      IN TXT  "v=spf1 a a:peach.rexroof.com ~all"
+_DMARC.peach   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
 orange     IN A 107.175.28.54
 orange     IN TXT  "v=spf1 a a:orange.rexroof.com ~all"
+_DMARC.orange   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
 plum       IN A 23.95.14.209
 plum       IN TXT  "v=spf1 a a:plum.rexroof.com ~all"
+_DMARC.plum   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
 strawberry IN A 172.245.240.22
 strawberry IN TXT  "v=spf1 a a:strawberry.rexroof.com ~all"
+_DMARC.strawberry   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
 fruits  IN A 192.3.16.5
 fruits  IN A 107.175.28.54
 fruits  IN A 23.95.14.209
@@ -40,10 +44,13 @@ fruits  IN A 172.245.240.22
 
 hickory  IN A 104.244.79.72
 hickory  IN TXT  "v=spf1 a a:hickory.rexroof.com ~all"
+_DMARC.hickory   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
 pecan    IN A 198.98.49.26
 pecan    IN TXT  "v=spf1 a a:pecan.rexroof.com ~all"
+_DMARC.pecan   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
 mesquite IN A 199.19.224.244
 mesquite IN TXT  "v=spf1 a a:mesquite.rexroof.com ~all"
+_DMARC.mesquite   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
 smokes   IN A 104.244.79.72
 smokes   IN A 198.98.49.26
 smokes   IN A 199.19.224.244

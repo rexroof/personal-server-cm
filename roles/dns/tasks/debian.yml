@@ -1,0 +1,59 @@
+---
+- name: Install bind packages
+  ansible.builtin.package:
+    state: present
+    name:
+      - bind9
+      - bind9-utils
+      - bind9-dnsutils
+
+- name: Copy DNS Zonefiles
+  ansible.builtin.copy:
+    src: zonefiles/
+    dest: /var/cache/bind/
+    mode: '0644'
+  notify: Reload rndc
+
+- name: Install hosted zones file
+  ansible.builtin.copy:
+    src: hosted.zones
+    dest: /etc/bind/hosted.zones
+    mode: '0644'
+  notify: Restart named
+
+- name: Remove old default named.conf
+  ansible.builtin.file:
+    path: /etc/named.conf
+    state: absent
+  notify: Restart named
+
+- name: Install named local config
+  ansible.builtin.copy:
+    src: debian_config.local
+    dest: /etc/bind/named.conf.local
+    mode: '0644'
+  notify: Restart named
+
+- name: Install named options
+  ansible.builtin.copy:
+    src: debian_config.options
+    dest: /etc/bind/named.conf.options
+    mode: '0640'
+  notify: Restart named
+
+- name: Put ender in named group
+  ansible.builtin.user:
+    name: ender
+    groups: bind
+    append: true
+
+# - name: Make sure rndc files are created
+# command:  /etc/rc.d/init.d/named stop && /etc/rc.d/init.d/named start
+# args:
+#   creates: /etc/rndc.key
+
+- name: Enable / start named
+  ansible.builtin.service:
+    name: named
+    state: started
+    enabled: true

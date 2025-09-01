@@ -1,0 +1,15 @@
+options {
+        directory "/var/cache/bind";
+        statistics-file "/var/cache/bind/named_stats.txt";
+        memstatistics-file "/var/cache/bind/named_mem_stats.txt";
+        dnssec-validation auto;
+        listen-on port 53 { any; };
+	listen-on-v6 { any; };
+};
+
+logging {
+        channel default_debug {
+                file "named_debug.log";
+                severity dynamic;
+        };
+};
