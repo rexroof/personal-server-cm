@@ -20,6 +20,16 @@
      - opendkim
     state: present
 
+- name: Set facts for Debian
+  ansible.builtin.set_fact:
+    daemon_directory: /usr/lib/postfix/sbin
+  when: ansible_distribution == "Debian"
+
+- name: Set facts for Fedora
+  ansible.builtin.set_fact:
+    daemon_directory: /usr/libexec/postfix
+  when: ansible_distribution == "Fedora"
+
 - name: Template postfix config
   ansible.builtin.template:
     src: "{{ item }}"

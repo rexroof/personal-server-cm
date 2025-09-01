@@ -1,6 +1,6 @@
 $TTL 1800  ; ( 4 hours = 14400 )
 rexroof.com.       IN      SOA     dns.rexroof.com.   rex.rexroof.com. (
-	2025090102
+	2025090104
         3600 ; refresh [1h]
         600  ; retry [10m]
         1209600 ; expire [14d]
@@ -31,19 +31,19 @@ dns3 IN A 198.98.49.26
 peach      IN A 192.3.16.5
 peach      IN TXT  "v=spf1 a a:peach.rexroof.com ~all"
 _DMARC.peach   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
-@		IN	MX	10 peach.rexroof.com.
+@          IN	MX	10 peach.rexroof.com.
 orange     IN A 107.175.28.54
 orange     IN TXT  "v=spf1 a a:orange.rexroof.com ~all"
 _DMARC.orange   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
-@		IN	MX	10 orange.rexroof.com.
+@          IN	MX	10 orange.rexroof.com.
 plum       IN A 23.95.14.209
 plum       IN TXT  "v=spf1 a a:plum.rexroof.com ~all"
 _DMARC.plum   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
-@		IN	MX	10 plum.rexroof.com.
+@          IN	MX	10 plum.rexroof.com.
 strawberry IN A 172.245.240.22
 strawberry IN TXT  "v=spf1 a a:strawberry.rexroof.com ~all"
 _DMARC.strawberry   IN TXT "v=DMARC1; p=reject; rua=mailto:dmarc-reports@rexroof.com; adkim=r; aspf=s;"
-@		IN	MX	10 strawberry.rexroof.com.
+@       IN	MX	10 strawberry.rexroof.com.
 fruits  IN A 192.3.16.5
 fruits  IN A 107.175.28.54
 fruits  IN A 23.95.14.209

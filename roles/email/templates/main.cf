@@ -52,7 +52,7 @@ command_directory = /usr/sbin
 # daemon programs (i.e. programs listed in the master.cf file). This
 # directory must be owned by root.
 #
-daemon_directory = /usr/libexec/postfix
+daemon_directory = {{ daemon_directory }}
 
 # The data_directory parameter specifies the location of Postfix-writable
 # data files (caches, random numbers). This directory must be owned
@@ -79,7 +79,7 @@ mail_owner = postfix
 #default_privs = nobody
 
 # INTERNET HOST AND DOMAIN NAMES
-# 
+#
 # The myhostname parameter specifies the internet hostname of this
 # mail system. The default is to use the fully-qualified domain name
 # from gethostname(). $myhostname is used as a default value for many
@@ -97,7 +97,7 @@ myhostname = {{ ansible_fqdn }}
 #mydomain = domain.tld
 
 # SENDING MAIL
-# 
+#
 # The myorigin parameter specifies the domain that locally-posted
 # mail appears to come from. The default is to append $myhostname,
 # which is fine for small sites.  If you run a domain with multiple
