@@ -727,7 +727,7 @@ readme_directory = /usr/share/doc/postfix-2.10.1/README_FILES
 # virtual_mailbox_maps = hash:/etc/postfix/vmailbox,hash:/etc/postfix/vmailboxtwo
 ## virtual_mailbox_maps = hash:/etc/postfix/mailbox_map-rexroof.com, hash:/etc/postfix/mailbox_map-erinmann.com, hash:/etc/postfix/mailbox_map-neomyte.net
 
-# aliases 
+# aliases
 ## virtual_alias_maps = hash:/etc/postfix/alias_map-rexroof.com, hash:/etc/postfix/alias_map-erinmann.com, hash:/etc/postfix/alias_map-neomyte.net
 #
 # no idea if I'll need to set these.

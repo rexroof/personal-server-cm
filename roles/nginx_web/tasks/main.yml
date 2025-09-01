@@ -39,6 +39,8 @@
     dest: /home/ender/acme.sh/
   when: not acme_proxy_host
 
+# this doesn't work when movnig to new server, if it was already synced over
+# requires moving the renewal cron job by hand to new server
 - name: Install acme.sh if not already
   ansible.builtin.command: ./acme.sh --install -m ssl@rexroof.com
   args:
@@ -75,6 +77,8 @@
     name: nginx
     state: started
     enabled: true
+
+# these cron jobs should possibly also do a state: absent for proxy servers/non-proxy servers so they migrate properly when switching roles.
 
 - name: Cron job for wrecks.dev
   ansible.builtin.cron:

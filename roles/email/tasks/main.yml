@@ -1,4 +1,13 @@
 ---
+#
+# WARNING:  every new mail server needs an ssl cert
+# run this on proxy host:
+# bash ~/.acme.sh/acme.sh --issue -d orange.rexroof.com -w /usr/share/nginx/html --log --force
+# and then sync to S3.
+# Could possibly do this in ansible via delegated hosts
+#
+#
+#
 - name: Include dkim keys variable file
   ansible.builtin.include_vars:
     file: dkim_keys.yml
